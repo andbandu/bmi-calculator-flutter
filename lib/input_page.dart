@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reuseble_conatiner.dart';
 import 'icon_content.dart';
+import 'constants.dart';
 
-const bottomContainerHeight = 80.0;
-const activeCardColor = Color(0XFF1D1E33);
-const inActiveCardColor = Color(0XFF111328);
 enum Gender { male, female }
 
 class InputPage extends StatefulWidget {
@@ -15,6 +13,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+  int height = 180;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,46 +25,38 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.male;
-                      });
-                    },
-                    child: ReusebleContainer(
-                      colour: selectedGender == Gender.male
-                          ? activeCardColor
-                          : inActiveCardColor,
-                      cardContent: IconContent(
-                        icon: Icon(
-                          FontAwesomeIcons.mars,
-                          size: 50.0,
-                        ),
-                        iconName: "Male",
-                      ),
+                ReusebleContainer(
+                  onPress: () {
+                    setState(() {
+                      selectedGender = Gender.male;
+                    });
+                  },
+                  colour: selectedGender == Gender.male
+                      ? activeCardColor
+                      : inActiveCardColor,
+                  cardContent: IconContent(
+                    icon: Icon(
+                      FontAwesomeIcons.mars,
+                      size: 50.0,
                     ),
+                    iconName: "Male",
                   ),
                 ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.female;
-                      });
-                    },
-                    child: ReusebleContainer(
-                      colour: selectedGender == Gender.female
-                          ? activeCardColor
-                          : inActiveCardColor,
-                      cardContent: IconContent(
-                        icon: Icon(
-                          FontAwesomeIcons.venus,
-                          size: 50.0,
-                        ),
-                        iconName: "Female",
-                      ),
+                ReusebleContainer(
+                  onPress: () {
+                    setState(() {
+                      selectedGender = Gender.female;
+                    });
+                  },
+                  colour: selectedGender == Gender.female
+                      ? activeCardColor
+                      : inActiveCardColor,
+                  cardContent: IconContent(
+                    icon: Icon(
+                      FontAwesomeIcons.venus,
+                      size: 50.0,
                     ),
+                    iconName: "Female",
                   ),
                 ),
               ],
@@ -76,7 +67,46 @@ class _InputPageState extends State<InputPage> {
               children: [
                 ReusebleContainer(
                   colour: activeCardColor,
-                  cardContent: IconContent(),
+                  cardContent: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("HEIGHT"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: <Widget>[
+                          Text(
+                            height.toString(),
+                            style: TextStyle(fontSize: 30.0),
+                          ),
+                          Text(
+                            " Cm",
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                        ],
+                      ),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          thumbColor: Color(0xffEB1555),
+                          thumbShape:
+                              RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                          overlayColor: Color(0x26EB1555),
+                          activeTrackColor: Color(0xffffffff),
+                          inactiveTrackColor: Color(0xff8d8e98),
+                        ),
+                        child: Slider(
+                            value: height.toDouble(),
+                            min: 120,
+                            max: 320,
+                            onChanged: (double setHeight) {
+                              setState(() {
+                                height = setHeight.toInt();
+                              });
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
