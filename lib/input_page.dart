@@ -14,22 +14,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColor = inActiveCardColor;
-  Color feMaleCardColor = inActiveCardColor;
-
-  void updateColor(Gender selectedGender) {
-    setState(() {
-      if (selectedGender == Gender.male) {
-        maleCardColor = activeCardColor;
-        feMaleCardColor = inActiveCardColor;
-      }
-      if (selectedGender == Gender.female) {
-        maleCardColor = inActiveCardColor;
-        feMaleCardColor = activeCardColor;
-      }
-    });
-  }
-
+  Gender selectedGender;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +29,14 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      updateColor(Gender.male);
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
                     },
                     child: ReusebleContainer(
-                      colour: maleCardColor,
+                      colour: selectedGender == Gender.male
+                          ? activeCardColor
+                          : inActiveCardColor,
                       cardContent: IconContent(
                         icon: Icon(
                           FontAwesomeIcons.mars,
@@ -61,10 +50,14 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      updateColor(Gender.female);
+                      setState(() {
+                        selectedGender = Gender.female;
+                      });
                     },
                     child: ReusebleContainer(
-                      colour: feMaleCardColor,
+                      colour: selectedGender == Gender.female
+                          ? activeCardColor
+                          : inActiveCardColor,
                       cardContent: IconContent(
                         icon: Icon(
                           FontAwesomeIcons.venus,
