@@ -5,6 +5,8 @@ import 'icon_content.dart';
 
 const bottomContainerHeight = 80.0;
 const activeCardColor = Color(0XFF1D1E33);
+const inActiveCardColor = Color(0XFF111328);
+enum Gender { male, female }
 
 class InputPage extends StatefulWidget {
   @override
@@ -12,6 +14,22 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = inActiveCardColor;
+  Color feMaleCardColor = inActiveCardColor;
+
+  void updateColor(Gender selectedGender) {
+    setState(() {
+      if (selectedGender == Gender.male) {
+        maleCardColor = activeCardColor;
+        feMaleCardColor = inActiveCardColor;
+      }
+      if (selectedGender == Gender.female) {
+        maleCardColor = inActiveCardColor;
+        feMaleCardColor = activeCardColor;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,24 +41,38 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                ReusebleContainer(
-                  colour: activeCardColor,
-                  cardContent: IconContent(
-                    icon: Icon(
-                      FontAwesomeIcons.mars,
-                      size: 50.0,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      updateColor(Gender.male);
+                    },
+                    child: ReusebleContainer(
+                      colour: maleCardColor,
+                      cardContent: IconContent(
+                        icon: Icon(
+                          FontAwesomeIcons.mars,
+                          size: 50.0,
+                        ),
+                        iconName: "Male",
+                      ),
                     ),
-                    iconName: "Male",
                   ),
                 ),
-                ReusebleContainer(
-                  colour: activeCardColor,
-                  cardContent: IconContent(
-                    icon: Icon(
-                      FontAwesomeIcons.venus,
-                      size: 50.0,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      updateColor(Gender.female);
+                    },
+                    child: ReusebleContainer(
+                      colour: feMaleCardColor,
+                      cardContent: IconContent(
+                        icon: Icon(
+                          FontAwesomeIcons.venus,
+                          size: 50.0,
+                        ),
+                        iconName: "Female",
+                      ),
                     ),
-                    iconName: "Female",
                   ),
                 ),
               ],
